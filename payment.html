@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Payment</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<h1 class="logo">
+
+SK Photo Garafi
+
+</h1>
+
+</header>
+
+<div class="payment-box">
+
+<h1>
+
+Complete Payment
+
+</h1>
+
+<h2>
+
+₹<span id="payAmount">
+
+0
+
+</span>
+
+</h2>
+
+<button onclick="payNow()">
+
+Pay Now
+
+</button>
+
+</div>
+
+<button
+class="theme-btn"
+onclick="toggleTheme()"
+>
+
+🌙
+
+</button>
+
+<script src="script.js"></script>
+
+</body>
+</html>

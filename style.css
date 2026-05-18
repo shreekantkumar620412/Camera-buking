@@ -1,0 +1,233 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#000;
+color:#fff;
+}
+
+/* HEADER */
+
+.header{
+width:100%;
+background:#111;
+padding:15px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+border-bottom:2px solid red;
+}
+
+/* LOGO */
+
+.logo{
+font-size:35px;
+text-shadow:0 0 15px red;
+margin-bottom:15px;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+}
+
+.navbar a{
+padding:10px 15px;
+background:#1a1a1a;
+color:#fff;
+text-decoration:none;
+border-radius:10px;
+}
+
+/* HERO */
+
+.hero{
+min-height:80vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+}
+
+.hero-title{
+font-size:60px;
+text-shadow:0 0 20px red;
+}
+
+.hero-text{
+margin-top:15px;
+font-size:20px;
+}
+
+/* BUTTON */
+
+.btn,
+button,
+.call-btn,
+.sms-btn{
+padding:14px 30px;
+background:#ff2b00;
+border:none;
+border-radius:50px;
+color:#fff;
+font-size:18px;
+margin-top:20px;
+cursor:pointer;
+text-decoration:none;
+display:inline-block;
+}
+
+.sms-btn{
+background:#0066ff;
+}
+
+/* BOX */
+
+.page-box,
+.form-box,
+.payment-box,
+.contact-box{
+width:90%;
+max-width:700px;
+margin:30px auto;
+padding:30px;
+background:#111;
+border-radius:20px;
+box-shadow:0 0 20px red;
+}
+
+/* INPUT */
+
+input,
+select,
+textarea{
+width:100%;
+padding:15px;
+margin-top:15px;
+background:#222;
+border:none;
+border-radius:10px;
+color:#fff;
+}
+
+/* SERVICES */
+
+.services-container{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.service-card{
+background:#111;
+padding:25px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 20px red;
+}
+
+/* TABLE */
+
+.table-box{
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th{
+background:red;
+padding:15px;
+}
+
+td{
+padding:15px;
+border:1px solid #333;
+text-align:center;
+}
+
+/* DELETE */
+
+.delete-btn{
+background:red;
+padding:10px 15px;
+border:none;
+border-radius:10px;
+color:#fff;
+cursor:pointer;
+}
+
+/* THEME */
+
+.theme-btn{
+position:fixed;
+right:20px;
+bottom:20px;
+width:60px;
+height:60px;
+border-radius:50%;
+font-size:24px;
+background:#ff2b00;
+color:#fff;
+border:none;
+cursor:pointer;
+}
+
+/* LIGHT MODE */
+
+.light-mode{
+background:#f5f5f5;
+color:#000;
+}
+
+.light-mode .header,
+.light-mode .form-box,
+.light-mode .page-box,
+.light-mode .payment-box,
+.light-mode .contact-box,
+.light-mode .service-card{
+background:#fff;
+color:#000;
+}
+
+.light-mode input,
+.light-mode select,
+.light-mode textarea{
+background:#eee;
+color:#000;
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+.logo{
+font-size:24px;
+}
+
+.hero-title{
+font-size:35px;
+}
+
+.navbar a{
+font-size:12px;
+padding:8px 10px;
+}
+
+}

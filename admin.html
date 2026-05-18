@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Admin</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+<h1 class="logo">
+
+Admin Panel
+
+</h1>
+
+</header>
+
+<div
+class="form-box"
+id="loginBox"
+>
+
+<h2>
+
+Admin Login
+
+</h2>
+
+<input
+type="password"
+id="adminPassword"
+placeholder="Enter Password"
+>
+
+<button
+onclick="checkAdminPassword()"
+>
+
+Login
+
+</button>
+
+</div>
+
+<div
+class="page-box"
+id="adminPanel"
+style="display:none;"
+>
+
+<h1>
+
+Dashboard
+
+</h1>
+
+<button
+onclick="adminLogout()"
+>
+
+Logout
+
+</button>
+
+<h2>
+
+Total Payment :
+₹<span id="totalAmount">
+0
+</span>
+
+</h2>
+
+<h2>
+
+Total Bookings :
+<span id="totalBookings">
+0
+</span>
+
+</h2>
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Mobile</th>
+
+<th>Event</th>
+
+<th>Date</th>
+
+<th>Details</th>
+
+<th>Amount</th>
+
+<th>Status</th>
+
+<th>Time</th>
+
+<th>Delete</th>
+
+</tr>
+
+</thead>
+
+<tbody id="adminTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<button
+class="theme-btn"
+onclick="toggleTheme()"
+>
+
+🌙
+
+</button>
+
+<script src="script.js"></script>
+
+</body>
+</html>
