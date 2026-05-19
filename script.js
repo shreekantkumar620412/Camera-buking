@@ -1,102 +1,164 @@
-// ======================
+// =====================================
+// WEBSITE MAIN JAVASCRIPT
+// S.k Photo Garafi
+// =====================================
+
+// =====================================
 // MOBILE MENU
-// ======================
+// =====================================
 
 const menuBtn =
-document.getElementById('menuBtn');
+document.getElementById("menuBtn");
 
 const nav =
-document.getElementById('nav');
+document.getElementById("nav");
 
-if(menuBtn){
+if(menuBtn && nav){
 
-menuBtn.onclick = () => {
+menuBtn.addEventListener("click", ()=>{
 
-nav.classList.toggle('active');
+nav.classList.toggle("active");
+
+});
 
 }
 
-}
-
-// ======================
-// DARK LIGHT MODE
-// ======================
+// =====================================
+// DARK / LIGHT MODE
+// =====================================
 
 const themeBtn =
-document.getElementById('themeBtn');
+document.getElementById("themeBtn");
+
+// Load Saved Theme
+
+const savedTheme =
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+document.body.classList.add("light");
+
+}
 
 if(themeBtn){
 
-themeBtn.onclick = () => {
+themeBtn.addEventListener("click", ()=>{
 
-document.body.classList.toggle('light');
+document.body.classList.toggle("light");
 
 // Save Theme
 
-if(document.body.classList.contains('light')){
+if(document.body.classList.contains("light")){
 
 localStorage.setItem(
-'theme',
-'light'
+"theme",
+"light"
 );
 
 }else{
 
 localStorage.setItem(
-'theme',
-'dark'
+"theme",
+"dark"
 );
 
 }
 
-}
+});
 
 }
 
-// Load Theme
+// =====================================
+// LANGUAGE SYSTEM
+// =====================================
 
-if(localStorage.getItem('theme') == 'light'){
+function setLanguage(lang){
 
-document.body.classList.add('light');
+localStorage.setItem(
+"language",
+lang
+);
+
+alert(
+"Language Changed To " + lang
+);
 
 }
 
-// ======================
-// BOOKING FORM SAVE
-// ======================
+// =====================================
+// BOOKING FORM
+// =====================================
 
 const bookingForm =
-document.getElementById('bookingForm');
+document.getElementById("bookingForm");
 
 if(bookingForm){
 
-bookingForm.addEventListener('submit', function(e){
+bookingForm.addEventListener("submit",(e)=>{
 
 e.preventDefault();
+
+// Input Values
+
+let name =
+document.getElementById("name").value.trim();
+
+let mobile =
+document.getElementById("mobile").value.trim();
+
+let date =
+document.getElementById("date").value;
+
+let service =
+document.getElementById("service").value;
+
+// Validation
+
+if(name === "" ||
+mobile === "" ||
+date === "" ||
+service === ""){
+
+alert("Please Fill All Fields");
+
+return;
+
+}
+
+// Mobile Validation
+
+if(mobile.length < 10){
+
+alert("Enter Valid Mobile Number");
+
+return;
+
+}
 
 // Save Booking Data
 
 localStorage.setItem(
-'customerName',
-document.getElementById('name').value
+"customerName",
+name
 );
 
 localStorage.setItem(
-'customerMobile',
-document.getElementById('mobile').value
+"customerMobile",
+mobile
 );
 
 localStorage.setItem(
-'customerService',
-document.getElementById('service').value
+"customerDate",
+date
 );
 
 localStorage.setItem(
-'customerDate',
-document.getElementById('date').value
+"customerService",
+service
 );
 
-alert("Booking Saved");
+alert("Booking Saved Successfully");
 
 window.location.href =
 "payment.html";
@@ -105,45 +167,113 @@ window.location.href =
 
 }
 
-// ======================
-// RAZORPAY PAYMENT
-// ======================
+// =====================================
+// SERVICE PRICE SYSTEM
+// =====================================
+
+function getServiceAmount(service){
+
+let amount = 499;
+
+if(service === "Wedding Shoot"){
+
+amount = 4999;
+
+}
+
+else if(service === "Birthday Shoot"){
+
+amount = 1999;
+
+}
+
+else if(service === "Couple Shoot"){
+
+amount = 2999;
+
+}
+
+else if(service === "Baby Shoot"){
+
+amount = 1499;
+
+}
+
+else if(service === "Pre Wedding"){
+
+amount = 6999;
+
+}
+
+return amount;
+
+}
+
+// =====================================
+// PAYMENT SYSTEM
+// =====================================
 
 const payBtn =
-document.getElementById('payBtn');
+document.getElementById("payBtn");
 
 if(payBtn){
 
-payBtn.onclick = function(){
+payBtn.addEventListener("click", ()=>{
+
+// Get Booking Data
 
 let name =
-localStorage.getItem('customerName');
+localStorage.getItem("customerName");
 
 let mobile =
-localStorage.getItem('customerMobile');
-
-let service =
-localStorage.getItem('customerService');
+localStorage.getItem("customerMobile");
 
 let date =
-localStorage.getItem('customerDate');
+localStorage.getItem("customerDate");
 
-var options = {
+let service =
+localStorage.getItem("customerService");
 
-key: "rzp_live_SoteNW5NPB4rM2",
+// Check Booking
 
-amount: 100,
+if(!name || !mobile){
 
-currency: "INR",
+alert("Please Complete Booking First");
 
-name: "S.k Photo Garafi",
+window.location.href =
+"booking.html";
 
-description: "Photography Booking",
+return;
 
-handler: function (response){
+}
+
+// Auto Amount Detect
+
+let amount =
+getServiceAmount(service);
+
+// Razorpay Options
+
+let options = {
+
+key:"rzp_live_SoteNW5NPB4rM2",
+
+amount:amount * 100,
+
+currency:"INR",
+
+name:"S.k Photo Garafi",
+
+description:service,
+
+handler:function(response){
+
+// Existing Bookings
 
 let bookings =
-JSON.parse(localStorage.getItem('bookings')) || [];
+JSON.parse(
+localStorage.getItem("bookings")
+) || [];
 
 // Save Booking
 
@@ -153,9 +283,11 @@ name:name,
 
 mobile:mobile,
 
+date:date,
+
 service:service,
 
-date:date,
+amount:amount,
 
 payment:"Paid",
 
@@ -164,56 +296,206 @@ response.razorpay_payment_id
 
 });
 
+// Save Bookings
+
 localStorage.setItem(
-'bookings',
+"bookings",
 JSON.stringify(bookings)
+);
+
+// Save Payment Slip Data
+
+localStorage.setItem(
+"lastPaymentId",
+response.razorpay_payment_id
+);
+
+localStorage.setItem(
+"lastAmount",
+amount
 );
 
 alert("Payment Successful");
 
-window.location.href =
-"login.html";
+// Redirect Slip Page
 
+window.location.href =
+"paymentslip.html";
+
+},
+
+theme:{
+color:"#ffcc00"
 }
 
 };
 
-var rzp =
+// Open Razorpay
+
+let rzp =
 new Razorpay(options);
 
 rzp.open();
 
-}
+});
 
 }
 
-// ======================
+// =====================================
+// PAYMENT SLIP PAGE
+// =====================================
+
+// Elements
+
+const slipName =
+document.getElementById("slipName");
+
+const slipMobile =
+document.getElementById("slipMobile");
+
+const slipService =
+document.getElementById("slipService");
+
+const slipDate =
+document.getElementById("slipDate");
+
+const totalAmount =
+document.getElementById("totalAmount");
+
+const paidAmount =
+document.getElementById("paidAmount");
+
+const dueAmount =
+document.getElementById("dueAmount");
+
+const slipPaymentId =
+document.getElementById("slipPaymentId");
+
+// Get Local Data
+
+let customerName =
+localStorage.getItem("customerName") || "N/A";
+
+let customerMobile =
+localStorage.getItem("customerMobile") || "N/A";
+
+let customerService =
+localStorage.getItem("customerService") || "N/A";
+
+let customerDate =
+localStorage.getItem("customerDate") || "N/A";
+
+let paymentId =
+localStorage.getItem("lastPaymentId") || "N/A";
+
+let paidPrice =
+Number(
+localStorage.getItem("lastAmount")
+) || 0;
+
+// Total Price
+
+let totalPrice =
+getServiceAmount(customerService);
+
+// Due Price
+
+let duePrice =
+totalPrice - paidPrice;
+
+// Show Data
+
+if(slipName){
+
+slipName.innerText =
+customerName;
+
+}
+
+if(slipMobile){
+
+slipMobile.innerText =
+customerMobile;
+
+}
+
+if(slipService){
+
+slipService.innerText =
+customerService;
+
+}
+
+if(slipDate){
+
+slipDate.innerText =
+customerDate;
+
+}
+
+if(totalAmount){
+
+totalAmount.innerText =
+"₹" + totalPrice;
+
+}
+
+if(paidAmount){
+
+paidAmount.innerText =
+"₹" + paidPrice;
+
+}
+
+if(dueAmount){
+
+dueAmount.innerText =
+"₹" + duePrice;
+
+}
+
+if(slipPaymentId){
+
+slipPaymentId.innerText =
+paymentId;
+
+}
+
+// Download Slip
+
+function downloadSlip(){
+
+window.print();
+
+}
+
+// =====================================
 // ADMIN LOGIN
-// ======================
+// =====================================
 
 const loginForm =
-document.getElementById('loginForm');
+document.getElementById("loginForm");
 
 if(loginForm){
 
-loginForm.addEventListener('submit', function(e){
+loginForm.addEventListener("submit",(e)=>{
 
 e.preventDefault();
 
 let username =
-document.getElementById('username').value;
+document.getElementById("username").value.trim();
 
 let password =
-document.getElementById('password').value;
+document.getElementById("password").value.trim();
 
-// Login Check
+// Login Validation
 
-if(username == "Shrikant" &&
-password == "SK625693"){
+if(username === "Shreekant@62" &&
+password === "SK625693"){
 
 localStorage.setItem(
-'adminLogin',
-'true'
+"adminLogin",
+"true"
 );
 
 alert("Login Successful");
@@ -223,7 +505,7 @@ window.location.href =
 
 }else{
 
-alert("Wrong Username or Password");
+alert("Wrong Username Or Password");
 
 }
 
@@ -231,23 +513,40 @@ alert("Wrong Username or Password");
 
 }
 
-// ======================
-// ADMIN TABLE
-// ======================
+// =====================================
+// ADMIN SECURITY
+// =====================================
+
+if(window.location.pathname.includes("admin.html")){
+
+if(localStorage.getItem("adminLogin") !== "true"){
+
+window.location.href =
+"login.html";
+
+}
+
+}
+
+// =====================================
+// ADMIN PANEL TABLE
+// =====================================
 
 const bookingTable =
-document.getElementById('bookingTable');
+document.getElementById("bookingTable");
 
 const totalBookings =
-document.getElementById('totalBookings');
+document.getElementById("totalBookings");
 
 const totalPayments =
-document.getElementById('totalPayments');
+document.getElementById("totalPayments");
 
 if(bookingTable){
 
 let bookings =
-JSON.parse(localStorage.getItem('bookings')) || [];
+JSON.parse(
+localStorage.getItem("bookings")
+) || [];
 
 function loadBookings(){
 
@@ -255,9 +554,31 @@ bookingTable.innerHTML = "";
 
 let total = 0;
 
+// Empty Data
+
+if(bookings.length === 0){
+
+bookingTable.innerHTML = `
+
+<tr>
+
+<td colspan="7">
+
+No Bookings Found
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+// Show Data
+
 bookings.forEach((item,index)=>{
 
-total += 1;
+total += Number(item.amount);
 
 bookingTable.innerHTML += `
 
@@ -271,9 +592,9 @@ bookingTable.innerHTML += `
 
 <td>${item.date}</td>
 
-<td>${item.payment}</td>
+<td>₹${item.amount}</td>
 
-<td>${item.paymentId || "N/A"}</td>
+<td>${item.payment}</td>
 
 <td>
 
@@ -291,23 +612,25 @@ Delete
 
 });
 
-// Total Summary
+// Summary
 
 if(totalBookings){
 
-totalBookings.innerHTML =
+totalBookings.innerText =
 bookings.length;
 
 }
 
 if(totalPayments){
 
-totalPayments.innerHTML =
+totalPayments.innerText =
 "₹" + total;
 
 }
 
 }
+
+// Load Table
 
 loadBookings();
 
@@ -316,14 +639,14 @@ loadBookings();
 window.deleteBooking = function(index){
 
 let confirmDelete =
-confirm("Delete This Booking?");
+confirm("Delete Booking?");
 
 if(confirmDelete){
 
 bookings.splice(index,1);
 
 localStorage.setItem(
-'bookings',
+"bookings",
 JSON.stringify(bookings)
 );
 
@@ -335,52 +658,118 @@ loadBookings();
 
 }
 
-// ======================
+// =====================================
 // LOGOUT
-// ======================
+// =====================================
 
 function logout(){
 
 localStorage.removeItem(
-'adminLogin'
+"adminLogin"
 );
+
+alert("Logout Successful");
 
 window.location.href =
 "login.html";
 
 }
 
-// ======================
-// LANGUAGE CHANGE
-// ======================
-
-function setLanguage(lang){
-
-localStorage.setItem(
-'language',
-lang
-);
-
-alert("Language Changed To " + lang);
-
-}
-
-// ======================
+// =====================================
 // CONTACT FORM
-// ======================
+// =====================================
 
 const contactForm =
-document.getElementById('contactForm');
+document.getElementById("contactForm");
 
 if(contactForm){
 
-contactForm.addEventListener('submit', function(e){
+contactForm.addEventListener("submit",(e)=>{
 
 e.preventDefault();
 
 alert("Message Sent Successfully");
 
 contactForm.reset();
+
+});
+
+}
+
+// =====================================
+// LIVE CHAT PAGE
+// =====================================
+
+const chatForm =
+document.getElementById("chatForm");
+
+const chatArea =
+document.getElementById("chatArea");
+
+if(chatForm && chatArea){
+
+chatForm.addEventListener("submit",(e)=>{
+
+e.preventDefault();
+
+let chatInput =
+document.getElementById("chatInput");
+
+let message =
+chatInput.value.trim();
+
+// Empty Check
+
+if(message === ""){
+
+return;
+
+}
+
+// User Message
+
+chatArea.innerHTML += `
+
+<div class="chat-message user">
+
+<p>${message}</p>
+
+</div>
+
+`;
+
+// Auto Scroll
+
+chatArea.scrollTop =
+chatArea.scrollHeight;
+
+// Auto Reply
+
+setTimeout(()=>{
+
+chatArea.innerHTML += `
+
+<div class="chat-message admin">
+
+<p>
+
+Thank you 😊
+We will contact you soon.
+
+</p>
+
+</div>
+
+`;
+
+chatArea.scrollTop =
+chatArea.scrollHeight;
+
+},1000);
+
+// Clear Input
+
+chatInput.value = "";
 
 });
 

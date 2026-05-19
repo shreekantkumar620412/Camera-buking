@@ -1,3 +1,7 @@
+/* ===================================
+GLOBAL RESET
+=================================== */
+
 *{
 margin:0;
 padding:0;
@@ -5,55 +9,75 @@ box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 background:#111;
-color:white;
-transition:0.3s;
+color:#fff;
 line-height:1.6;
+overflow-x:hidden;
+transition:0.3s;
 }
 
 body.light{
-background:white;
-color:black;
+background:#ffffff;
+color:#000;
 }
 
-/* HEADER */
+a{
+text-decoration:none;
+}
+
+img{
+max-width:100%;
+display:block;
+border-radius:15px;
+}
+
+/* ===================================
+HEADER
+=================================== */
 
 header{
+width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:15px 8%;
-background:black;
+background:#1b1b1b;
 position:sticky;
 top:0;
 z-index:1000;
+box-shadow:0 3px 10px rgba(0,0,0,0.3);
 }
 
 body.light header{
-background:#f0f0f0;
+background:#f2f2f2;
 }
 
 .logo{
-font-size:28px;
+font-size:30px;
 font-weight:bold;
 color:#ffcc00;
 }
 
 nav{
 display:flex;
+align-items:center;
 gap:20px;
 }
 
 nav a{
-color:white;
-text-decoration:none;
+color:#fff;
+font-size:16px;
 font-weight:bold;
 transition:0.3s;
 }
 
 body.light nav a{
-color:black;
+color:#000;
 }
 
 nav a:hover{
@@ -66,69 +90,88 @@ gap:10px;
 }
 
 button{
-padding:10px 15px;
+padding:12px 18px;
 border:none;
-border-radius:8px;
+border-radius:12px;
 cursor:pointer;
+font-size:16px;
 font-weight:bold;
+background:#666;
+color:white;
 transition:0.3s;
 }
 
 button:hover{
+transform:scale(1.03);
 opacity:0.9;
 }
 
-/* HERO */
+/* ===================================
+HERO SECTION
+=================================== */
 
 .hero{
-height:100vh;
+width:100%;
+min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
 padding:20px;
-background:url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1200') center/cover;
+background:url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1200') center/cover no-repeat;
 }
 
 .hero-box{
-background:rgba(0,0,0,0.6);
-padding:40px;
-border-radius:20px;
-max-width:650px;
+width:100%;
+max-width:700px;
+background:rgba(0,0,0,0.65);
+padding:45px;
+border-radius:25px;
+backdrop-filter:blur(5px);
 }
 
 .hero-box h1{
-font-size:55px;
+font-size:60px;
 margin-bottom:15px;
 }
 
 .hero-box p{
-font-size:20px;
-margin-bottom:20px;
+font-size:22px;
+margin-bottom:25px;
 }
 
 .btn{
 display:inline-block;
-padding:12px 25px;
+padding:15px 30px;
 background:#ffcc00;
 color:black;
-text-decoration:none;
-border-radius:30px;
+border-radius:35px;
 font-weight:bold;
+transition:0.3s;
 }
 
-/* PAGE */
+.btn:hover{
+transform:scale(1.05);
+}
+
+/* ===================================
+PAGE
+=================================== */
 
 .page{
+width:100%;
 padding:80px 8%;
 }
 
 .page h1{
-font-size:40px;
-margin-bottom:30px;
+font-size:45px;
+margin-bottom:35px;
+text-align:center;
 }
 
-/* CARD */
+/* ===================================
+CARDS
+=================================== */
 
 .card-container{
 display:grid;
@@ -137,9 +180,10 @@ gap:20px;
 }
 
 .card{
-background:#1e1e1e;
+background:#1f1f1f;
 padding:30px;
-border-radius:15px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 transition:0.3s;
 }
 
@@ -151,23 +195,42 @@ background:#f0f0f0;
 transform:translateY(-5px);
 }
 
-/* FORM */
+.card h2{
+margin-bottom:15px;
+font-size:28px;
+}
+
+/* ===================================
+FORM
+=================================== */
 
 form{
+width:100%;
+max-width:550px;
+margin:auto;
 display:flex;
 flex-direction:column;
 gap:20px;
-max-width:500px;
 }
 
 input,
 textarea,
 select{
+width:100%;
 padding:15px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 font-size:16px;
 outline:none;
+background:#333;
+color:white;
+}
+
+body.light input,
+body.light textarea,
+body.light select{
+background:#ddd;
+color:black;
 }
 
 textarea{
@@ -175,7 +238,9 @@ min-height:120px;
 resize:none;
 }
 
-/* CONTACT */
+/* ===================================
+CONTACT PAGE
+=================================== */
 
 .contact-box{
 display:grid;
@@ -185,31 +250,182 @@ margin-bottom:40px;
 }
 
 .contact-card{
-background:#1e1e1e;
-padding:30px;
-border-radius:15px;
+background:#1f1f1f;
+padding:30px 20px;
+border-radius:20px;
 text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 body.light .contact-card{
 background:#f0f0f0;
 }
 
-.contact-btn{
-display:inline-block;
-padding:12px 20px;
-background:#ffcc00;
-color:black;
-text-decoration:none;
-border-radius:30px;
-margin-top:15px;
-font-weight:bold;
+.contact-card h2{
+font-size:30px;
+margin-bottom:10px;
 }
 
-/* LOGIN */
+.contact-card p{
+font-size:18px;
+margin-bottom:20px;
+word-break:break-word;
+}
+
+.contact-btn{
+display:inline-flex;
+justify-content:center;
+align-items:center;
+padding:14px 28px;
+background:#ffcc00;
+color:black;
+border-radius:40px;
+font-weight:bold;
+font-size:18px;
+transition:0.3s;
+min-width:220px;
+}
+
+.contact-btn:hover{
+transform:scale(1.05);
+}
+
+/* ===================================
+LIVE CHAT SECTION
+=================================== */
+
+.live-chat-section{
+margin-top:40px;
+background:#1f1f1f;
+padding:35px 25px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+body.light .live-chat-section{
+background:#f0f0f0;
+}
+
+.live-chat-section h2{
+font-size:42px;
+margin-bottom:15px;
+}
+
+.live-chat-section p{
+font-size:20px;
+margin-bottom:25px;
+}
+
+.live-chat-btn{
+display:inline-flex;
+justify-content:center;
+align-items:center;
+gap:10px;
+padding:16px 30px;
+background:#25D366;
+color:white;
+border-radius:40px;
+font-size:20px;
+font-weight:bold;
+transition:0.3s;
+min-width:260px;
+}
+
+.live-chat-btn:hover{
+transform:scale(1.05);
+}
+
+/* ===================================
+CHAT PAGE
+=================================== */
+
+.chat-box{
+width:100%;
+max-width:700px;
+margin:auto;
+background:#1f1f1f;
+padding:25px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+body.light .chat-box{
+background:#f0f0f0;
+}
+
+.chat-message{
+padding:15px;
+border-radius:15px;
+margin-bottom:15px;
+max-width:85%;
+word-wrap:break-word;
+}
+
+.chat-message.admin{
+background:#ffcc00;
+color:black;
+}
+
+.chat-message.user{
+background:#25D366;
+margin-left:auto;
+color:white;
+}
+
+#chatArea{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-bottom:20px;
+max-height:400px;
+overflow-y:auto;
+}
+
+#chatForm{
+display:flex;
+gap:10px;
+margin-top:20px;
+}
+
+#chatForm input{
+flex:1;
+}
+
+#chatForm button{
+background:#ffcc00;
+color:black;
+min-width:120px;
+}
+
+.chat-buttons{
+display:flex;
+gap:15px;
+margin-top:25px;
+flex-wrap:wrap;
+}
+
+.chat-btn{
+flex:1;
+padding:14px 20px;
+border-radius:35px;
+font-weight:bold;
+text-align:center;
+background:#ffcc00;
+color:black;
+}
+
+.chat-btn.whatsapp{
+background:#25D366;
+color:white;
+}
+
+/* ===================================
+LOGIN PAGE
+=================================== */
 
 .login-page{
-height:100vh;
+min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -219,16 +435,19 @@ padding:20px;
 .login-box{
 width:100%;
 max-width:400px;
-background:#1e1e1e;
+background:#1f1f1f;
 padding:40px;
-border-radius:15px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 body.light .login-box{
 background:#f0f0f0;
 }
 
-/* ADMIN */
+/* ===================================
+ADMIN PANEL
+=================================== */
 
 .admin-summary{
 display:grid;
@@ -248,13 +467,14 @@ color:#ffcc00;
 }
 
 .admin-box{
-overflow:auto;
+overflow-x:auto;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
 margin-top:20px;
+min-width:700px;
 }
 
 table th,
@@ -272,6 +492,8 @@ color:black;
 td button{
 background:red;
 color:white;
+padding:10px 15px;
+border-radius:8px;
 }
 
 .logout-btn{
@@ -280,16 +502,151 @@ color:white;
 margin-bottom:20px;
 }
 
-/* IMAGE */
+/* ===================================
+PAYMENT SLIP
+=================================== */
 
-img{
-max-width:100%;
-height:auto;
-display:block;
-border-radius:15px;
+.slip-box{
+width:100%;
+max-width:650px;
+margin:auto;
+background:#1f1f1f;
+padding:35px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* RESPONSIVE */
+body.light .slip-box{
+background:#f0f0f0;
+}
+
+.slip-box h2{
+text-align:center;
+margin-bottom:25px;
+font-size:35px;
+color:#25D366;
+}
+
+.slip-details p{
+font-size:18px;
+margin-bottom:15px;
+padding-bottom:12px;
+border-bottom:1px solid #444;
+word-break:break-word;
+display:flex;
+justify-content:space-between;
+gap:10px;
+}
+
+.slip-details strong{
+color:#ffcc00;
+}
+
+body.light .slip-details strong{
+color:#000;
+}
+
+.paid-status{
+color:#25D366;
+font-weight:bold;
+}
+
+.slip-buttons{
+display:flex;
+gap:15px;
+margin-top:30px;
+flex-wrap:wrap;
+}
+
+.slip-buttons button,
+.home-btn{
+flex:1;
+padding:14px 20px;
+border:none;
+border-radius:35px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+text-align:center;
+}
+
+.slip-buttons button{
+background:#ffcc00;
+color:black;
+}
+
+.home-btn{
+background:#25D366;
+color:white;
+}
+
+/* ===================================
+FLOAT LIVE CHAT
+=================================== */
+
+.live-chat{
+position:fixed;
+bottom:20px;
+right:20px;
+z-index:9999;
+}
+
+.live-chat a{
+width:65px;
+height:65px;
+background:#25D366;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+border-radius:50%;
+font-size:32px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+animation:chatAnimation 1.5s infinite;
+}
+
+@keyframes chatAnimation{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.08);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+/* ===================================
+PRINT FIX
+=================================== */
+
+@media print{
+
+header,
+.live-chat,
+.slip-buttons{
+display:none;
+}
+
+body{
+background:white;
+}
+
+.slip-box{
+box-shadow:none;
+border:2px solid #000;
+}
+
+}
+
+/* ===================================
+RESPONSIVE
+=================================== */
 
 @media(max-width:768px){
 
@@ -297,14 +654,19 @@ header{
 padding:15px 5%;
 }
 
+.logo{
+font-size:24px;
+}
+
 nav{
 position:absolute;
-top:70px;
+top:75px;
 right:-100%;
-background:black;
-flex-direction:column;
-padding:20px;
 width:220px;
+background:#1f1f1f;
+padding:20px;
+flex-direction:column;
+border-radius:15px;
 transition:0.3s;
 }
 
@@ -313,51 +675,97 @@ background:#f0f0f0;
 }
 
 nav.active{
-right:0;
+right:10px;
 }
 
 .hero-box{
-padding:25px;
+padding:30px 20px;
 }
 
 .hero-box h1{
-font-size:35px;
+font-size:36px;
 }
 
 .hero-box p{
-font-size:16px;
+font-size:17px;
+}
+
+.page{
+padding:60px 5%;
 }
 
 .page h1{
-font-size:30px;
+font-size:32px;
 }
 
 .card{
-padding:20px;
+padding:22px;
+}
+
+.contact-btn,
+.live-chat-btn,
+.chat-btn,
+.home-btn{
+width:100%;
+min-width:unset;
+}
+
+#chatForm{
+flex-direction:column;
+}
+
+#chatForm button{
+width:100%;
+}
+
+.chat-buttons,
+.slip-buttons{
+flex-direction:column;
+}
+
+.slip-box{
+padding:25px;
+}
+
+.slip-box h2{
+font-size:28px;
+}
+
+.slip-details p{
+font-size:16px;
+flex-direction:column;
+align-items:flex-start;
+}
+
+table{
+font-size:14px;
 }
 
 }
 
 @media(max-width:480px){
 
-.logo{
-font-size:22px;
-}
-
 .hero-box h1{
 font-size:28px;
 }
 
 .hero-box p{
-font-size:14px;
+font-size:15px;
 }
 
 button{
 width:100%;
 }
 
-.page{
-padding:50px 5%;
+.live-chat{
+bottom:15px;
+right:15px;
+}
+
+.live-chat a{
+width:58px;
+height:58px;
+font-size:28px;
 }
 
 }
