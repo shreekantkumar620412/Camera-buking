@@ -1,594 +1,283 @@
-/* =========================================
-   SK PHOTO GARAFI - MAIN SCRIPT
-========================================= */
+// ======================
+// MOBILE MENU
+// ======================
 
-document.addEventListener(
-"DOMContentLoaded",
-function(){
+const menuBtn =
+document.getElementById('menuBtn');
 
-/* LOAD ALL */
+const nav =
+document.getElementById('nav');
 
-loadTheme();
+if(menuBtn){
 
-bookingForm();
+menuBtn.onclick = () => {
 
-showPaymentAmount();
-
-checkAdminLogin();
-
-loadAdminData();
+nav.classList.toggle('active');
 
 }
-);
 
-/* =========================================
-   LIGHT & DARK MODE
-========================================= */
+}
 
-function toggleTheme(){
+// ======================
+// DARK LIGHT MODE
+// ======================
 
-document.body.classList.toggle(
-"light-mode"
-);
+const themeBtn =
+document.getElementById('themeBtn');
 
-/* SAVE */
+if(themeBtn){
 
-if(
-document.body.classList.contains(
-"light-mode"
-)
-){
+themeBtn.onclick = () => {
+
+document.body.classList.toggle('light');
+
+// Save Theme
+
+if(document.body.classList.contains('light')){
 
 localStorage.setItem(
-"theme",
-"light"
+'theme',
+'light'
 );
 
 }else{
 
 localStorage.setItem(
-"theme",
-"dark"
+'theme',
+'dark'
 );
 
 }
 
 }
 
-/* LOAD THEME */
+}
 
-function loadTheme(){
+// Load Theme
 
-let theme =
-localStorage.getItem(
-"theme"
-);
+if(localStorage.getItem('theme') == 'light'){
 
-if(theme=="light"){
-
-document.body.classList.add(
-"light-mode"
-);
+document.body.classList.add('light');
 
 }
 
-}
+// ======================
+// BOOKING FORM SAVE
+// ======================
 
-/* =========================================
-   BOOKING FORM
-========================================= */
+const bookingForm =
+document.getElementById('bookingForm');
 
-function bookingForm(){
+if(bookingForm){
 
-let form =
-document.getElementById(
-"bookingForm"
-);
-
-if(!form){
-return;
-}
-
-form.addEventListener(
-"submit",
-function(e){
+bookingForm.addEventListener('submit', function(e){
 
 e.preventDefault();
 
-/* GET VALUES */
+// Save Booking Data
 
-let name =
-document.getElementById(
-"name"
-).value.trim();
-
-let mobile =
-document.getElementById(
-"mobile"
-).value.trim();
-
-let eventType =
-document.getElementById(
-"eventType"
-).value;
-
-let date =
-document.getElementById(
-"date"
-).value;
-
-let details =
-document.getElementById(
-"details"
-).value.trim();
-
-/* VALIDATION */
-
-if(
-name==""
-){
-
-alert(
-"Enter Name"
+localStorage.setItem(
+'customerName',
+document.getElementById('name').value
 );
 
-return;
-
-}
-
-if(
-mobile.length != 10
-){
-
-alert(
-"Enter Valid Mobile Number"
+localStorage.setItem(
+'customerMobile',
+document.getElementById('mobile').value
 );
 
-return;
+localStorage.setItem(
+'customerService',
+document.getElementById('service').value
+);
 
-}
+localStorage.setItem(
+'customerDate',
+document.getElementById('date').value
+);
 
-/* CHECK DUPLICATE */
+alert("Booking Saved");
 
-let payments =
-JSON.parse(
-localStorage.getItem(
-"allPayments"
-)
-) || [];
-
-let duplicate =
-payments.find(function(item){
-
-return item.mobile ==
-mobile;
+window.location.href =
+"payment.html";
 
 });
 
-if(duplicate){
-
-alert(
-"Already Booking Found"
-);
-
-return;
-
 }
 
-/* PRICE */
+// ======================
+// RAZORPAY PAYMENT
+// ======================
 
-let amount = 999;
+const payBtn =
+document.getElementById('payBtn');
 
-if(eventType=="Wedding"){
+if(payBtn){
 
-amount = 1999;
+payBtn.onclick = function(){
 
-}
+let name =
+localStorage.getItem('customerName');
 
-if(eventType=="Drone Shoot"){
+let mobile =
+localStorage.getItem('customerMobile');
 
-amount = 2499;
+let service =
+localStorage.getItem('customerService');
 
-}
+let date =
+localStorage.getItem('customerDate');
 
-/* SAVE CURRENT */
+var options = {
 
-let booking = {
+key: "rzp_live_SoteNW5NPB4rM2",
+
+amount: 100,
+
+currency: "INR",
+
+name: "S.k Photo Garafi",
+
+description: "Photography Booking",
+
+handler: function (response){
+
+let bookings =
+JSON.parse(localStorage.getItem('bookings')) || [];
+
+// Save Booking
+
+bookings.push({
 
 name:name,
 
 mobile:mobile,
 
-event:eventType,
+service:service,
 
 date:date,
 
-details:details,
+payment:"Paid",
 
-amount:amount,
+paymentId:
+response.razorpay_payment_id
 
-status:"Pending",
-
-paymentId:"",
-
-time:
-new Date().toLocaleString()
-
-};
+});
 
 localStorage.setItem(
-"currentBooking",
-JSON.stringify(booking)
+'bookings',
+JSON.stringify(bookings)
 );
 
-alert(
-"Booking Saved"
-);
-
-/* REDIRECT */
+alert("Payment Successful");
 
 window.location.href =
-"payment.html";
-
-}
-);
-
-}
-
-/* =========================================
-   SHOW PAYMENT AMOUNT
-========================================= */
-
-function showPaymentAmount(){
-
-let booking =
-JSON.parse(
-localStorage.getItem(
-"currentBooking"
-)
-);
-
-if(!booking){
-return;
-}
-
-let amountBox =
-document.getElementById(
-"payAmount"
-);
-
-if(amountBox){
-
-amountBox.innerHTML =
-booking.amount;
-
-}
-
-}
-
-/* =========================================
-   PAYMENT GATEWAY
-========================================= */
-
-function payNow(){
-
-let booking =
-JSON.parse(
-localStorage.getItem(
-"currentBooking"
-)
-);
-
-if(!booking){
-
-alert(
-"No Booking Found"
-);
-
-window.location.href =
-"booking.html";
-
-return;
-
-}
-
-/* RAZORPAY */
-
-let options = {
-
-key:"rzp_live_SoteNW5NPB4rM2",
-
-amount:
-booking.amount * 100,
-
-currency:"INR",
-
-name:"SK Photo Garafi",
-
-description:
-booking.event + " Booking",
-
-theme:{
-
-color:"#ff2b00"
-
-},
-
-prefill:{
-
-name:booking.name,
-
-contact:booking.mobile
-
-},
-
-handler:function(response){
-
-/* SUCCESS */
-
-booking.status =
-"Paid";
-
-booking.paymentId =
-response.razorpay_payment_id;
-
-/* SAVE */
-
-let payments =
-JSON.parse(
-localStorage.getItem(
-"allPayments"
-)
-) || [];
-
-payments.push(booking);
-
-localStorage.setItem(
-"allPayments",
-JSON.stringify(payments)
-);
-
-/* REMOVE CURRENT */
-
-localStorage.removeItem(
-"currentBooking"
-);
-
-alert(
-"Payment Successful"
-);
-
-window.location.href =
-"success.html";
-
-},
-
-modal:{
-
-ondismiss:function(){
-
-alert(
-"Payment Cancelled"
-);
-
-}
+"login.html";
 
 }
 
 };
 
-/* OPEN */
-
-let rzp =
+var rzp =
 new Razorpay(options);
-
-/* FAIL */
-
-rzp.on(
-"payment.failed",
-function(){
-
-alert(
-"Payment Failed"
-);
-
-}
-);
 
 rzp.open();
 
 }
 
-/* =========================================
-   ADMIN LOGIN
-========================================= */
+}
 
-function checkAdminPassword(){
+// ======================
+// ADMIN LOGIN
+// ======================
+
+const loginForm =
+document.getElementById('loginForm');
+
+if(loginForm){
+
+loginForm.addEventListener('submit', function(e){
+
+e.preventDefault();
+
+let username =
+document.getElementById('username').value;
 
 let password =
-document.getElementById(
-"adminPassword"
-).value;
+document.getElementById('password').value;
 
-if(
-password=="SK625693"
-){
+// Login Check
+
+if(username == "Shrikant" &&
+password == "SK625693"){
 
 localStorage.setItem(
-"adminLogin",
-"true"
+'adminLogin',
+'true'
 );
 
-checkAdminLogin();
-
-loadAdminData();
-
-}else{
-
-alert(
-"Wrong Password"
-);
-
-}
-
-}
-
-/* CHECK LOGIN */
-
-function checkAdminLogin(){
-
-let login =
-localStorage.getItem(
-"adminLogin"
-);
-
-let loginBox =
-document.getElementById(
-"loginBox"
-);
-
-let adminPanel =
-document.getElementById(
-"adminPanel"
-);
-
-if(
-!loginBox ||
-!adminPanel
-){
-return;
-}
-
-if(
-login=="true"
-){
-
-loginBox.style.display =
-"none";
-
-adminPanel.style.display =
-"block";
-
-}else{
-
-loginBox.style.display =
-"block";
-
-adminPanel.style.display =
-"none";
-
-}
-
-}
-
-/* LOGOUT */
-
-function adminLogout(){
-
-localStorage.removeItem(
-"adminLogin"
-);
-
-alert(
-"Logout Successful"
-);
+alert("Login Successful");
 
 window.location.href =
 "admin.html";
 
+}else{
+
+alert("Wrong Username or Password");
+
 }
 
-/* =========================================
-   LOAD ADMIN DATA
-========================================= */
+});
 
-function loadAdminData(){
-
-if(
-localStorage.getItem(
-"adminLogin"
-)!="true"
-){
-return;
 }
 
-let table =
-document.getElementById(
-"adminTable"
-);
+// ======================
+// ADMIN TABLE
+// ======================
 
-if(!table){
-return;
-}
+const bookingTable =
+document.getElementById('bookingTable');
 
-let payments =
-JSON.parse(
-localStorage.getItem(
-"allPayments"
-)
-) || [];
+const totalBookings =
+document.getElementById('totalBookings');
 
-table.innerHTML = "";
+const totalPayments =
+document.getElementById('totalPayments');
+
+if(bookingTable){
+
+let bookings =
+JSON.parse(localStorage.getItem('bookings')) || [];
+
+function loadBookings(){
+
+bookingTable.innerHTML = "";
 
 let total = 0;
 
-/* EMPTY */
+bookings.forEach((item,index)=>{
 
-if(
-payments.length==0
-){
+total += 1;
 
-table.innerHTML =
+bookingTable.innerHTML += `
 
-`
-<tr>
-
-<td colspan="9">
-
-No Booking Found
-
-</td>
-
-</tr>
-`;
-
-}
-
-/* LOOP */
-
-payments.forEach(
-function(item,index){
-
-total +=
-Number(item.amount);
-
-table.innerHTML +=
-
-`
 <tr>
 
 <td>${item.name}</td>
 
 <td>${item.mobile}</td>
 
-<td>${item.event}</td>
+<td>${item.service}</td>
 
 <td>${item.date}</td>
 
-<td>${item.details}</td>
+<td>${item.payment}</td>
 
-<td>₹${item.amount}</td>
-
-<td>${item.status}</td>
-
-<td>${item.time}</td>
+<td>${item.paymentId || "N/A"}</td>
 
 <td>
 
-<button
-class="delete-btn"
-onclick="deleteBooking(${index})"
->
+<button onclick="deleteBooking(${index})">
 
 Delete
 
@@ -597,122 +286,102 @@ Delete
 </td>
 
 </tr>
+
 `;
 
-}
-);
+});
 
-/* TOTAL */
-
-let totalAmount =
-document.getElementById(
-"totalAmount"
-);
-
-let totalBookings =
-document.getElementById(
-"totalBookings"
-);
-
-if(totalAmount){
-
-totalAmount.innerHTML =
-total;
-
-}
+// Total Summary
 
 if(totalBookings){
 
 totalBookings.innerHTML =
-payments.length;
+bookings.length;
+
+}
+
+if(totalPayments){
+
+totalPayments.innerHTML =
+"₹" + total;
 
 }
 
 }
 
-/* =========================================
-   DELETE BOOKING
-========================================= */
+loadBookings();
 
-function deleteBooking(index){
+// Delete Booking
 
-let payments =
-JSON.parse(
-localStorage.getItem(
-"allPayments"
-)
-) || [];
+window.deleteBooking = function(index){
 
 let confirmDelete =
-confirm(
-"Delete Booking?"
-);
+confirm("Delete This Booking?");
 
-if(!confirmDelete){
-return;
-}
+if(confirmDelete){
 
-payments.splice(index,1);
+bookings.splice(index,1);
 
 localStorage.setItem(
-"allPayments",
-JSON.stringify(payments)
+'bookings',
+JSON.stringify(bookings)
 );
 
-loadAdminData();
+loadBookings();
 
 }
 
-/* =========================================
-   LANGUAGE CHANGE
-========================================= */
+}
 
-function changeLanguage(){
+}
 
-let lang =
-document.getElementById(
-"languageSelect"
-).value;
+// ======================
+// LOGOUT
+// ======================
+
+function logout(){
+
+localStorage.removeItem(
+'adminLogin'
+);
+
+window.location.href =
+"login.html";
+
+}
+
+// ======================
+// LANGUAGE CHANGE
+// ======================
+
+function setLanguage(lang){
 
 localStorage.setItem(
-"language",
+'language',
 lang
 );
 
-if(lang=="hi"){
-
-alert(
-"हिन्दी भाषा चुनी गई"
-);
-
-}else{
-
-alert(
-"English Selected"
-);
+alert("Language Changed To " + lang);
 
 }
 
-}
+// ======================
+// CONTACT FORM
+// ======================
 
-/* =========================================
-   DIRECT CALL
-========================================= */
+const contactForm =
+document.getElementById('contactForm');
 
-function directCall(){
+if(contactForm){
 
-window.location.href =
-"tel:+916205693707";
+contactForm.addEventListener('submit', function(e){
 
-}
+e.preventDefault();
 
-/* =========================================
-   DIRECT SMS
-========================================= */
+alert("Message Sent Successfully");
 
-function sendSMS(){
+contactForm.reset();
 
-window.location.href =
-"sms:+916205693707";
+});
 
 }

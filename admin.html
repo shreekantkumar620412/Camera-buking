@@ -1,98 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Admin</title>
+<title>Admin Dashboard</title>
 
-<link rel="stylesheet"
-href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
-
 <body>
 
-<header class="header">
+<script>
 
-<h1 class="logo">
+if(localStorage.getItem("adminLogin") != "true"){
 
-Admin Panel
+window.location.href = "login.html";
 
-</h1>
+}
 
-</header>
+</script>
 
-<div
-class="form-box"
-id="loginBox"
->
+<header>
 
-<h2>
+<div class="logo">S.k Photo Garafi</div>
 
-Admin Login
+<nav id="nav">
 
-</h2>
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="services.html">Services</a>
+<a href="booking.html">Booking</a>
+<a href="payment.html">Payment</a>
+<a href="contact.html">Contact</a>
 
-<input
-type="password"
-id="adminPassword"
-placeholder="Enter Password"
->
+</nav>
 
-<button
-onclick="checkAdminPassword()"
->
+<div class="top-buttons">
 
-Login
+<button id="themeBtn">🌙</button>
 
-</button>
+<button id="menuBtn">☰</button>
 
 </div>
 
-<div
-class="page-box"
-id="adminPanel"
-style="display:none;"
->
+</header>
 
-<h1>
+<section class="page">
 
-Dashboard
-
-</h1>
-
-<button
-onclick="adminLogout()"
->
+<button onclick="logout()"
+class="logout-btn">
 
 Logout
 
 </button>
 
-<h2>
+<h1>Admin Dashboard</h1>
 
-Total Payment :
-₹<span id="totalAmount">
+<div class="admin-summary">
+
+<div class="card">
+
+<h2>Total Bookings</h2>
+
+<h3 id="totalBookings">
 0
-</span>
+</h3>
 
-</h2>
+</div>
 
-<h2>
+<div class="card">
 
-Total Bookings :
-<span id="totalBookings">
-0
-</span>
+<h2>Total Payments</h2>
 
-</h2>
+<h3 id="totalPayments">
+₹0
+</h3>
 
-<div class="table-box">
+</div>
+
+</div>
+
+<div class="admin-box">
 
 <table>
 
@@ -101,28 +92,17 @@ Total Bookings :
 <tr>
 
 <th>Name</th>
-
 <th>Mobile</th>
-
-<th>Event</th>
-
+<th>Service</th>
 <th>Date</th>
-
-<th>Details</th>
-
-<th>Amount</th>
-
-<th>Status</th>
-
-<th>Time</th>
-
+<th>Payment</th>
 <th>Delete</th>
 
 </tr>
 
 </thead>
 
-<tbody id="adminTable">
+<tbody id="bookingTable">
 
 </tbody>
 
@@ -130,16 +110,7 @@ Total Bookings :
 
 </div>
 
-</div>
-
-<button
-class="theme-btn"
-onclick="toggleTheme()"
->
-
-🌙
-
-</button>
+</section>
 
 <script src="script.js"></script>
 

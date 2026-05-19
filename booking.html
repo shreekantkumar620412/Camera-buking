@@ -1,114 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
 <title>Booking</title>
 
-<link rel="stylesheet"
-href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
-
 <body>
 
-<header class="header">
+<header>
 
-<h1 class="logo">
-SK Photo Garafi
-</h1>
+<div class="logo">S.k Photo Garafi</div>
 
-<nav class="navbar">
+<nav id="nav">
 
 <a href="index.html">Home</a>
-
 <a href="about.html">About</a>
-
 <a href="services.html">Services</a>
-
 <a href="booking.html">Booking</a>
-
 <a href="payment.html">Payment</a>
-
 <a href="contact.html">Contact</a>
-
-<a href="admin.html">Admin</a>
+<a href="login.html">Admin</a>
 
 </nav>
 
+<div class="top-buttons">
+
+<button id="themeBtn">🌙</button>
+
+<button id="menuBtn">☰</button>
+
+</div>
+
 </header>
 
-<div class="form-box">
+<section class="page">
 
-<h1>
-
-Booking Form
-
-</h1>
+<h1>Book Your Shoot</h1>
 
 <form id="bookingForm">
 
-<input
-type="text"
+<input type="text"
 id="name"
-placeholder="Enter Name"
+placeholder="Full Name"
 required>
 
-<input
-type="tel"
+<input type="tel"
 id="mobile"
-placeholder="Enter Mobile Number"
+placeholder="Mobile Number"
 required>
 
-<select id="eventType">
-
-<option>
-Wedding
-</option>
-
-<option>
-Birthday
-</option>
-
-<option>
-Drone Shoot
-</option>
-
-</select>
-
-<input
-type="date"
+<input type="date"
 id="date"
 required>
 
-<textarea
-id="details"
-placeholder="Event Details">
-</textarea>
+<select id="service">
+
+<option>Wedding Shoot</option>
+<option>Birthday Shoot</option>
+<option>Couple Shoot</option>
+
+</select>
 
 <button type="submit">
 
-Book Now
+Continue Payment
 
 </button>
 
 </form>
 
-</div>
-
-<button
-class="theme-btn"
-onclick="toggleTheme()"
->
-
-🌙
-
-</button>
+</section>
 
 <script src="script.js"></script>
 
